@@ -1,41 +1,39 @@
-"use client";
+import UploadButton from "./upload-button";
+import cloudinary from "cloudinary";
+import { CloudinaryImage } from "./cloudinarty-image";
 
-import { CldUploadButton } from "next-cloudinary";
-import { UploadResult } from "../page";
-import { Button } from "@/components/ui/button";
+type SearchResult = {
+  public_id: string;
+};
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const results = (await cloudinary.v2.search
+    .expression("resource_type:image")
+    .sort_by("created_at", "desc")
+    .max_results(5)
+    .execute()) as { resources: SearchResult[] };
+
+  console.log(results);
+
   return (
     <section>
-      <div className="flex justify-between">
-        <h1 className="text-4xl font-bold">Gallery</h1>
-        <Button asChild>
-          <div className="flex gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-              />
-            </svg>
-          
-          <CldUploadButton
-            className=""
-            onUpload={(result: UploadResult) => {
-              //   setImageId(result.info.public_id);
-            }}
-            uploadPreset="first_preset"
-          />
+      <div className="flex flex-col gap-8">
+        <div className="flex justify-between ">
+          <h1 className="text-4xl font-bold">Gallery</h1>
+          <UploadButton />
         </div>
-        </Button>
-         </div>
+        <div className="grid grid-cols-4 gap-4">
+          {results.resources.map((result) => (
+            <CloudinaryImage
+              key={result.public_id}
+              src={result.public_id}
+              width="500"
+              height="300"
+              alt="An image of something"
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
