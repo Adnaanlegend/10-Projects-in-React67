@@ -51,7 +51,9 @@ export function CloudinaryImage(
         hover:text-red-500 cursor-pointer "
         />
       )}
-      <ImageMenu />
+      <ImageMenu 
+       image={imageData}
+      />
     </div>
   );
 }
