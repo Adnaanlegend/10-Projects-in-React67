@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card"
 
 import  Link  from "next/link"
+import { Folder } from "./page"
 
 
 export function AlbumCard({ folder }: {folder: Folder}) {
