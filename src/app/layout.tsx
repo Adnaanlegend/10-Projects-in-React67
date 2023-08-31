@@ -118,9 +118,9 @@ export default function RootLayout({
               target="_blank"
               href="https://www.linkedin.com/in/adnaanhussain786/ "
             >
-              Adnaan's 
+              Adnaan's
             </a>{" "}
-              App
+            App
             <div className="ml-auto flex items-center space-x-4">
               <Avatar>
                 <AvatarImage
